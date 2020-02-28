@@ -1,6 +1,7 @@
 const path = require('path')
 const express = require('express')
 const CastingService = require('./casting-service')
+const {requireAuth} = require('../middleware/jwt-auth')
 
 const castingRouter = express.Router()
 const jsonParser = express.json()
@@ -17,6 +18,7 @@ const serializeCasting = casting => ({
 
 castingRouter
     .route('/')
+    .all(requireAuth)
     .get((req, res, next) => {
         CastingService.getAllCasting(
             req.app.get('db')
@@ -54,6 +56,7 @@ castingRouter
 
 castingRouter
     .route('/:castingId')
+    .all(requireAuth)
     .all((req, res, next) => {
         CastingService.getById(
             req.app.get('db'),
