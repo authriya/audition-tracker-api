@@ -21,7 +21,8 @@ castingRouter
     .all(requireAuth)
     .get((req, res, next) => {
         CastingService.getAllCasting(
-            req.app.get('db')
+            req.app.get('db'),
+            req.user.id
         )
             .then(casting => {
                 res.json(casting.map(serializeCasting))
@@ -29,7 +30,7 @@ castingRouter
             .catch(next)
     })
     .post(jsonParser, (req, res, next) => {
-        const {name, address, email, associates, preferences, user_id} = req.body
+        const {name, address, email, associates, preferences} = req.body
         const newCasting = {name, address, email, associates, preferences}
 
         for(const [key, value] of Object.entries(newCasting)) {
@@ -39,7 +40,7 @@ castingRouter
                 })
             }
         }
-        newCasting.user_id = user_id
+        newCasting.user_id = req.user.id
 
         CastingService.insertCasting(
             req.app.get('db'),

@@ -2,6 +2,7 @@ const path = require('path')
 const express = require('express')
 const xss = require('xss')
 const AuditionsService = require('./auditions-service')
+const {requireAuth} = require('../middleware/jwt-auth')
 
 const auditionsRouter = express.Router()
 const jsonParser = express.json()
@@ -21,9 +22,11 @@ const serializeAudition = audition => ({
 
 auditionsRouter
     .route('/')
+    .all(requireAuth)
     .get((req, res, next) => {
         AuditionsService.getAllAuditions(
-            req.app.get('db')
+            req.app.get('db'),
+            req.user.id
         )
             .then(auditions => {
                 res.json(auditions.map(serializeAudition))
@@ -60,6 +63,7 @@ auditionsRouter
 
 auditionsRouter
     .route('/:auditionId')
+    .all(requireAuth)
     .all((req, res, next) => {
         AuditionsService.getById(
             req.app.get('db'),

@@ -1,6 +1,6 @@
 const CastingService = {
-    getAllCasting(knex) {
-        return knex.select('*').from('casting')
+    getAllCasting(knex, id) {
+        return knex.select('*').from('casting').where('user_id', id)
     },
     insertCasting(knex, newCasting) {
         return knex

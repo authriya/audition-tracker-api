@@ -1,6 +1,7 @@
 const AuditionsService = {
-    getAllAuditions(knex) {
+    getAllAuditions(knex, id) {
         return knex.select('*').from('auditions')
+        .join('casting', 'auditions.castingOffice', 'casting.id').where('casting.user_id', id)
     },
     insertAudition(knex, newAudition) {
         return knex
