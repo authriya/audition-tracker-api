@@ -37,7 +37,7 @@ auditionsRouter
         const {castingOffice, projectName, projectType, roleType, date, clothingNotes, rating, notes, callback} = req.body
         const newAudition = {castingOffice, projectName, projectType, roleType, rating} 
         for (const [key, value] of Object.entries(newAudition)) {
-            if (value == null) {
+            if (value == '') {
                 return res.status(400).json({
                     error: {message: `Missing '${key}' in request body`}
                 })
