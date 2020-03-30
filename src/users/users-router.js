@@ -12,7 +12,7 @@ usersRouter
     for (const field of ['user_name', 'password'])
       if (!req.body[field])
         return res.status(400).json({
-          error: `Missing '${field}' in request body`
+          error: `Missing username or password in request body`
         })
 
     // TODO: check user_name doesn't start with spaces
