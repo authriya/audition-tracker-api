@@ -35,7 +35,7 @@ auditionsRouter
     })
     .post(jsonParser, (req, res, next) => {
         const {castingOffice, projectName, projectType, roleType, date, clothingNotes, rating, notes, callback} = req.body
-        const newAudition = {castingOffice, projectName, projectType, roleType, rating} 
+        const newAudition = {castingOffice, projectName, projectType, roleType, rating, date, clothingNotes} 
         for (const [key, value] of Object.entries(newAudition)) {
             if (value == '') {
                 return res.status(400).json({
@@ -43,8 +43,7 @@ auditionsRouter
                 })
             }
         }
-        newAudition.date = date
-        newAudition.clothingNotes = clothingNotes
+
         newAudition.notes = notes
         newAudition.callback = callback
 
@@ -58,7 +57,10 @@ auditionsRouter
                     .location(path.posix.join(req.originalUrl, `${audition.id}`))
                     .json(serializeAudition(audition))
             })
-            .catch(next)
+            .catch(error => {
+                console.log(error);
+                next(error)
+            })
     })
 
 auditionsRouter
