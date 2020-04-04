@@ -35,7 +35,7 @@ auditionsRouter
     })
     .post(jsonParser, (req, res, next) => {
         const {id, castingOffice, projectName, projectType, roleType, date, clothingNotes, rating, notes, callback} = req.body
-        const newAudition = {castingOffice, projectName, projectType, roleType, rating, date, clothingNotes} 
+        const newAudition = {id, castingOffice, projectName, projectType, roleType, rating, date, clothingNotes} 
         for (const [key, value] of Object.entries(newAudition)) {
             if (value == '') {
                 return res.status(400).json({
@@ -43,7 +43,7 @@ auditionsRouter
                 })
             }
         }
-        newAudition.id = id
+
         newAudition.notes = notes
         newAudition.callback = callback
 
