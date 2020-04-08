@@ -17,7 +17,8 @@ const serializeAudition = audition => ({
     clothingNotes: xss(audition.clothingNotes),
     rating: audition.rating,
     notes: xss(audition.notes),
-    callback: audition.callback
+    callback: audition.callback,
+    user_id: audition.user_id
 })
 
 auditionsRouter
@@ -46,6 +47,7 @@ auditionsRouter
 
         newAudition.notes = notes
         newAudition.callback = callback
+        newAudition.user_id = req.user.id
 
         AuditionsService.insertAudition(
             req.app.get('db'),

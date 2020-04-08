@@ -9,5 +9,7 @@ CREATE TABLE auditions (
     "clothingNotes" TEXT,
     rating INTEGER NOT NULL,
     notes TEXT,
-    callback BOOLEAN
+    callback BOOLEAN,
+    user_id INTEGER
+        REFERENCES audition_users(id) ON DELETE CASCADE NOT NULL
 );
